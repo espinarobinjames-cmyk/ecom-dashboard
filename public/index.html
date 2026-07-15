@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ecom Dashboard</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; }
+    
+    /* AUTH */
+    .auth-container { max-width: 400px; margin: 80px auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 2px 20px rgba(0,0,0,0.1); }
+    .auth-container h2 { text-align: center; margin-bottom: 24px; color: #1a1a2e; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; margin-bottom: 6px; color: #555; font-size: 14px; }
+    .form-group input { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
+    .btn { width: 100%; padding: 12px; background: #4f46e5; color: white; border: none; border-radius: 8px; font-size: 15px; cursor: pointer; }
+    .btn:hover { background: #4338ca; }
+    .auth-switch { text-align: center; margin-top: 16px; font-size: 14px; color: #666; }
+    .auth-switch a { color: #4f46e5; cursor: pointer; text-decoration: none; }
+    .error-msg { color: red; font-size: 13px; text-align: center; margin-top: 10px; }
+
+    /* DASHBOARD */
+    .dashboard { display: none; }
+    .sidebar { position: fixed; left: 0; top: 0; width: 240px; height: 100vh; background: #1a1a2e; padding: 24px 16px; }
+    .sidebar h3 { color: white; margin-bottom: 32px; font-size: 18px; padding: 0 8px; }
+    .sidebar-menu a { display: block; padding: 10px 12px; color: #aaa; text-decoration: none; border-radius: 8px; margin-bottom: 4px; font-size: 14px; cursor: pointer; }
+    .sidebar-menu a:hover, .sidebar-menu a.active { background: #4f46e5; color: white; }
+    .main-content { margin-left: 240px; padding: 24px; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .topbar h2 { color: #1a1a2e; }
+    .logout-btn { padding: 8px 16px; background: #ef4444; color: white; border: none; border-radius: 8px; cursor: pointer; }
+
+    /* STATS */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+    .stat-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 1px 8px rgba(0,0,0,0.06); }
+    .stat-card .label { font-size: 13px; color: #888; margin-bottom: 8px; }
+    .stat-card .value { font-size: 24px; font-weight: 700; color: #1a1a2e; }
+    .stat-card.green .value { color: #10b981; }
+    .stat-card.red .value { color: #ef4444; }
+    .stat-card.blue .value { color: #4f46e5; }
+    .stat-card.orange .value { color: #f59e0b; }
+
+    /* FILTERS */
+    .filters { display: flex; gap: 10px;
