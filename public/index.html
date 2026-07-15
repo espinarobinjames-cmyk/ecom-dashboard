@@ -212,4 +212,235 @@
 
     <!-- ACCOUNTS PAGE -->
     <div id="accountsPage" class="hidden">
-      <p style="color:#888; margin-top:20px;">Sub-accounts feature
+      <p style="color:#888; margin-top:20px;">Sub-accounts feature coming soon!</p>
+    </div>
+  </div>
+</div>
+
+<!-- ADD SHOP MODAL -->
+<div class="modal" id="addShopModal">
+  <div class="modal-box">
+    <h3>Add Pancake POS Shop</h3>
+    <div class="form-group">
+      <label>Shop Name</label>
+      <input type="text" id="shopName" placeholder="e.g. Shimano PH Store">
+    </div>
+    <div class="form-group">
+      <label>Pancake API Key</label>
+      <input type="text" id="shopApiKey" placeholder="Enter API Key">
+    </div>
+    <div class="form-group">
+      <label>Pancake Shop ID</label>
+      <input type="text" id="shopId" placeholder="e.g. 1636049864">
+    </div>
+    <div id="shopError" class="error-msg"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeAddShop()">Cancel</button>
+      <button class="btn-save" onclick="saveShop()">Connect Shop</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const API = '';
+  let token = localStorage.getItem('token');
+  let currentPage = 1;
+  let currentStatus = '';
+  let currentShopId = '';
+  let isLogin = true;
+
+  if (token) showDashboard();
+
+  function toggleAuth() {
+    isLogin = !isLogin;
+    document.getElementById('authTitle').textContent = isLogin ? 'Login' : 'Register';
+    document.getElementById('authSwitchLink').textContent = isLogin ? 'Register' : 'Login';
+    document.getElementById('authSwitchText').textContent = isLogin ? "Don't have an account?" : 'Already have an account?';
+    document.getElementById('nameGroup').classList.toggle('hidden', isLogin);
+  }
+
+  async function submitAuth() {
+    const email = document.getElementById('authEmail').value;
+    const password = document.getElementById('authPassword').value;
+    const name = document.getElementById('authName').value;
+    const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
+    const body = isLogin ? { email, password } : { name, email, password };
+    try {
+      const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      token = data.token;
+      showDashboard();
+    } catch (err) {
+      document.getElementById('authError').textContent = err.message;
+    }
+  }
+
+  function showDashboard() {
+    document.getElementById('authSection').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    document.getElementById('welcomeUser').textContent = `Hi, ${user.name || 'User'}!`;
+    loadShops();
+  }
+
+  function logout() { localStorage.clear(); location.reload(); }
+
+  function showPage(page) {
+    ['orders','shops','accounts'].forEach(p => document.getElementById(`${p}Page`).classList.add('hidden'));
+    document.getElementById(`${page}Page`).classList.remove('hidden');
+    document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+    document.getElementById(`menu-${page}`).classList.add('active');
+    const titles = { orders: 'Orders', shops: 'My Shops', accounts: 'Accounts' };
+    document.getElementById('pageTitle').textContent = titles[page];
+    if (page === 'shops') loadShops();
+  }
+
+  async function loadShops() {
+    try {
+      const res = await fetch('/api/shops', { headers: { Authorization: `Bearer ${token}` } });
+      const shops = await res.json();
+      const select = document.getElementById('shopSelect');
+      const grid = document.getElementById('shopsGrid');
+      select.innerHTML = '<option value="">-- Select Shop --</option>';
+      grid.innerHTML = '<div class="add-shop-card" onclick="openAddShop()">+ Add Pancake POS Shop</div>';
+      shops.forEach(shop => {
+        select.innerHTML += `<option value="${shop.id}">${shop.name}</option>`;
+        grid.innerHTML = `<div class="shop-card">
+          <h4>${shop.name}</h4>
+          <p>Shop ID: ${shop.shop_id}</p>
+          <p style="margin-top:10px;color:#ef4444;font-size:12px;cursor:pointer;" onclick="deleteShop('${shop.id}')">Remove</p>
+        </div>` + grid.innerHTML;
+      });
+    } catch (err) { console.error(err); }
+  }
+
+  async function loadOrders() {
+    currentShopId = document.getElementById('shopSelect').value;
+    if (!currentShopId) return;
+    document.getElementById('ordersBody').innerHTML = '<tr class="loading-row"><td colspan="9">Loading orders...</td></tr>';
+    try {
+      let url = `/api/orders/${currentShopId}?page=${currentPage}`;
+      if (currentStatus !== '') url += `&status=${currentStatus}`;
+      const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+      const data = await res.json();
+      renderOrders(data);
+    } catch (err) {
+      document.getElementById('ordersBody').innerHTML = '<tr class="loading-row"><td colspan="9">Error loading orders</td></tr>';
+    }
+  }
+
+  const statusMap = {
+    0: 'New', 1: 'Confirmed', 2: 'Shipped', 3: 'Delivered',
+    4: 'Returning', 5: 'Returned', 6: 'Cancelled', 7: 'Returned', 9: 'Sent to Partner'
+  };
+
+  function renderOrders(data) {
+    const tbody = document.getElementById('ordersBody');
+    if (!data.orders || data.orders.length === 0) {
+      tbody.innerHTML = '<tr class="loading-row"><td colspan="9">No orders found</td></tr>';
+      return;
+    }
+
+    // Stats
+    if (data.aggs) {
+      document.getElementById('statTotal').textContent = data.total_entries || 0;
+      const buckets = data.aggs.status?.buckets || [];
+      const delivered = buckets.find(b => b.key === '3')?.doc_count || 0;
+      const returned = buckets.find(b => b.key === '7')?.doc_count || 0;
+      document.getElementById('statDelivered').textContent = delivered;
+      document.getElementById('statReturned').textContent = returned;
+      document.getElementById('statCOD').textContent = '₱' + (data.aggs.cod?.value || 0).toLocaleString();
+    }
+
+    tbody.innerHTML = data.orders.map(order => {
+      // Product
+      const items = order.items || [];
+      let productName = '';
+      if (items.length === 0) productName = 'N/A';
+      else if (items.length === 1) productName = items[0].variation_info?.name || items[0].variation_info?.product_display_id || 'N/A';
+      else productName = `<span style="color:#4f46e5;font-weight:500;">Multiple Products (${items.length})</span>`;
+
+      // Qty
+      const qty = order.total_quantity || items.reduce((s, i) => s + (i.quantity || 0), 0) || 1;
+
+      // Page/Store
+      const pageName = order.account_name || order.page?.name || '--';
+
+      // Source
+      const source = order.ads_source || order.order_sources_name || '--';
+      const sourceClass = source === 'Facebook' ? 'source-badge source-fb' : 'source-badge';
+
+      // Date
+      const date = new Date(order.inserted_at).toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' });
+
+      // Status
+      const statusText = statusMap[order.status] || 'Unknown';
+
+      return `<tr>
+        <td style="font-weight:600;color:#4f46e5;">#${order.system_id}</td>
+        <td>${order.bill_full_name || '--'}</td>
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;">${productName}</td>
+        <td style="text-align:center;">${qty}</td>
+        <td style="font-weight:600;">₱${(order.total_price || 0).toLocaleString()}</td>
+        <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;font-size:12px;color:#555;">${pageName}</td>
+        <td><span class="${sourceClass}">${source}</span></td>
+        <td style="color:#888;">${date}</td>
+        <td class="col-status"><span class="status-badge status-${order.status}">${statusText}</span></td>
+      </tr>`;
+    }).join('');
+
+    // Pagination
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = '';
+    const total = data.total_pages || 1;
+    const pages = Math.min(total, 10);
+    for (let i = 1; i <= pages; i++) {
+      pagination.innerHTML += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+    }
+    if (total > 10) pagination.innerHTML += `<span style="padding:6px 10px;color:#888;font-size:13px;">... ${total} pages total</span>`;
+  }
+
+  function filterOrders(status, btn) {
+    currentStatus = status;
+    currentPage = 1;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    loadOrders();
+  }
+
+  function goToPage(page) { currentPage = page; loadOrders(); }
+
+  function openAddShop() { document.getElementById('addShopModal').classList.add('show'); }
+  function closeAddShop() { document.getElementById('addShopModal').classList.remove('show'); }
+
+  async function saveShop() {
+    const name = document.getElementById('shopName').value;
+    const api_key = document.getElementById('shopApiKey').value;
+    const shop_id = document.getElementById('shopId').value;
+    document.getElementById('shopError').textContent = '';
+    try {
+      const res = await fetch('/api/shops', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ name, api_key, shop_id })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+      closeAddShop();
+      loadShops();
+    } catch (err) {
+      document.getElementById('shopError').textContent = err.message;
+    }
+  }
+
+  async function deleteShop(id) {
+    if (!confirm('Remove this shop?')) return;
+    await fetch(`/api/shops/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+    loadShops();
+  }
+</script>
+</body>
+</html>
