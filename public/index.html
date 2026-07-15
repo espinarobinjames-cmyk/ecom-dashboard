@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+\<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -8,7 +8,6 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; }
 
-    /* AUTH */
     .auth-container { max-width: 400px; margin: 80px auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 2px 20px rgba(0,0,0,0.1); }
     .auth-container h2 { text-align: center; margin-bottom: 24px; color: #1a1a2e; }
     .form-group { margin-bottom: 16px; }
@@ -20,7 +19,6 @@
     .auth-switch a { color: #4f46e5; cursor: pointer; }
     .error-msg { color: red; font-size: 13px; text-align: center; margin-top: 10px; }
 
-    /* LAYOUT */
     .dashboard { display: none; }
     .sidebar { position: fixed; left: 0; top: 0; width: 220px; height: 100vh; background: #1a1a2e; padding: 20px 12px; z-index: 100; }
     .sidebar h3 { color: white; margin-bottom: 28px; font-size: 17px; padding: 0 8px; }
@@ -28,24 +26,25 @@
     .sidebar-menu a:hover, .sidebar-menu a.active { background: #4f46e5; color: white; }
     .main-content { margin-left: 220px; padding: 20px; min-height: 100vh; }
 
-    /* TOPBAR */
     .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
     .topbar h2 { color: #1a1a2e; font-size: 20px; }
     .logout-btn { padding: 7px 14px; background: #ef4444; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; }
 
     /* STATS */
-    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px; }
-    .stat-card { background: white; padding: 16px 20px; border-radius: 10px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
-    .stat-card .label { font-size: 12px; color: #888; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .stat-card .value { font-size: 22px; font-weight: 700; }
+    .stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 16px; }
+    .stat-card { background: white; padding: 14px 16px; border-radius: 10px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
+    .stat-card .label { font-size: 11px; color: #888; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-card .value { font-size: 20px; font-weight: 700; }
     .stat-card.blue .value { color: #4f46e5; }
     .stat-card.green .value { color: #10b981; }
     .stat-card.red .value { color: #ef4444; }
     .stat-card.orange .value { color: #f59e0b; }
+    .stat-card.purple .value { color: #7c3aed; }
 
-    /* FILTERS */
+    /* TOOLBAR */
     .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px; }
-    .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+    .toolbar-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .filters { display: flex; gap: 6px; flex-wrap: wrap; }
     .filter-btn { padding: 6px 14px; border: 1px solid #ddd; border-radius: 20px; background: white; cursor: pointer; font-size: 12px; color: #555; }
     .filter-btn.active { background: #4f46e5; color: white; border-color: #4f46e5; }
     .shop-selector select { padding: 7px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; }
@@ -53,12 +52,12 @@
     /* TABLE */
     .table-wrapper { background: white; border-radius: 12px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    thead { background: #f8f9fa; position: sticky; top: 0; z-index: 10; }
-    th { padding: 11px 14px; text-align: left; color: #666; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap; }
+    thead { background: #f8f9fa; }
+    th { padding: 11px 14px; text-align: left; color: #666; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap; }
     td { padding: 11px 14px; border-top: 1px solid #f0f0f0; vertical-align: middle; white-space: nowrap; }
     tr:hover td { background: #fafafa; }
 
-    /* STATUS BADGES - Pancake style */
+    /* STATUS */
     .status-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; }
     .status-0 { background: #dbeafe; color: #1d4ed8; }
     .status-1 { background: #e0f2fe; color: #0369a1; }
@@ -70,38 +69,38 @@
     .status-7 { background: #fee2e2; color: #b91c1c; }
     .status-9 { background: #fef3c7; color: #92400e; }
 
-    /* SOURCE BADGE */
     .source-badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; background: #f0f0f0; color: #555; }
     .source-fb { background: #dbeafe; color: #1d4ed8; }
 
-    /* STICKY STATUS COL */
     .col-status { position: sticky; right: 0; background: white; box-shadow: -2px 0 6px rgba(0,0,0,0.05); }
     thead .col-status { background: #f8f9fa; }
     tr:hover .col-status { background: #fafafa; }
 
-    /* PAGINATION */
-    .pagination { display: flex; justify-content: center; gap: 6px; margin-top: 16px; padding-bottom: 8px; }
+    /* BOTTOM BAR */
+    .bottom-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; flex-wrap: wrap; gap: 10px; }
+    .pagination { display: flex; gap: 6px; flex-wrap: wrap; }
     .page-btn { padding: 6px 12px; border: 1px solid #ddd; border-radius: 6px; background: white; cursor: pointer; font-size: 13px; }
     .page-btn.active { background: #4f46e5; color: white; border-color: #4f46e5; }
     .page-btn:hover:not(.active) { background: #f0f0f0; }
+    .per-page-selector { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #666; }
+    .per-page-selector select { padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; }
 
     /* SHOPS */
     .shops-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .shop-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); cursor: pointer; border: 2px solid transparent; }
+    .shop-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); border: 2px solid transparent; }
     .shop-card:hover { border-color: #4f46e5; }
     .shop-card h4 { color: #1a1a2e; margin-bottom: 4px; }
     .shop-card p { color: #888; font-size: 13px; }
     .add-shop-card { background: white; border: 2px dashed #ddd; padding: 20px; border-radius: 12px; text-align: center; cursor: pointer; color: #888; min-height: 100px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
     .add-shop-card:hover { border-color: #4f46e5; color: #4f46e5; }
 
-    /* MODAL */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
     .modal.show { display: flex; }
     .modal-box { background: white; padding: 28px; border-radius: 12px; width: 420px; }
     .modal-box h3 { margin-bottom: 18px; font-size: 16px; }
     .modal-actions { display: flex; gap: 10px; margin-top: 18px; }
-    .btn-cancel { flex: 1; padding: 10px; background: #f0f0f0; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; }
-    .btn-save { flex: 1; padding: 10px; background: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; }
+    .btn-cancel { flex: 1; padding: 10px; background: #f0f0f0; border: none; border-radius: 8px; cursor: pointer; }
+    .btn-save { flex: 1; padding: 10px; background: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; }
 
     .hidden { display: none; }
     .loading-row td { text-align: center; padding: 40px; color: #888; }
@@ -156,12 +155,42 @@
 
     <!-- ORDERS PAGE -->
     <div id="ordersPage">
-      <div class="toolbar">
+
+      <!-- SHOP SELECTOR -->
+      <div class="toolbar" style="margin-bottom:16px;">
         <div class="shop-selector">
           <select id="shopSelect" onchange="loadOrders()">
             <option value="">-- Select Shop --</option>
           </select>
         </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-grid">
+        <div class="stat-card blue">
+          <div class="label">Total Orders</div>
+          <div class="value" id="statTotal">--</div>
+        </div>
+        <div class="stat-card green">
+          <div class="label">Delivered</div>
+          <div class="value" id="statDelivered">--</div>
+        </div>
+        <div class="stat-card red">
+          <div class="label">Returned</div>
+          <div class="value" id="statReturned">--</div>
+        </div>
+        <div class="stat-card orange">
+          <div class="label">Cancelled</div>
+          <div class="value" id="statCancelled">--</div>
+        </div>
+        <div class="stat-card purple">
+          <div class="label">Total COD Value</div>
+          <div class="value" id="statCOD">--</div>
+        </div>
+      </div>
+
+      <!-- FILTERS -->
+      <div class="toolbar" style="margin-top:16px;">
         <div class="filters">
           <button class="filter-btn active" onclick="filterOrders('', this)">All</button>
           <button class="filter-btn" onclick="filterOrders('0', this)">New</button>
@@ -171,20 +200,16 @@
           <button class="filter-btn" onclick="filterOrders('6', this)">Cancelled</button>
           <button class="filter-btn" onclick="filterOrders('7', this)">Returned</button>
         </div>
+        <div style="font-size:13px;color:#888;" id="orderCount"></div>
       </div>
 
-      <div class="stats-grid" style="margin-bottom:16px;">
-        <div class="stat-card blue"><div class="label">Total Orders</div><div class="value" id="statTotal">--</div></div>
-        <div class="stat-card green"><div class="label">Delivered</div><div class="value" id="statDelivered">--</div></div>
-        <div class="stat-card red"><div class="label">Returned</div><div class="value" id="statReturned">--</div></div>
-        <div class="stat-card orange"><div class="label">Total COD</div><div class="value" id="statCOD">--</div></div>
-      </div>
-
-      <div class="table-wrapper">
+      <!-- TABLE -->
+      <div class="table-wrapper" style="margin-top:10px;">
         <table>
           <thead>
             <tr>
-              <th>POS #</th>
+              <th>POS ID</th>
+              <th>Shop</th>
               <th>Customer</th>
               <th>Product</th>
               <th>Qty</th>
@@ -196,11 +221,24 @@
             </tr>
           </thead>
           <tbody id="ordersBody">
-            <tr class="loading-row"><td colspan="9">Select a shop to load orders</td></tr>
+            <tr class="loading-row"><td colspan="10">Select a shop to load orders</td></tr>
           </tbody>
         </table>
       </div>
-      <div class="pagination" id="pagination"></div>
+
+      <!-- BOTTOM BAR -->
+      <div class="bottom-bar">
+        <div class="pagination" id="pagination"></div>
+        <div class="per-page-selector">
+          <span>Orders per page:</span>
+          <select id="perPageSelect" onchange="changePerPage()">
+            <option value="20">20</option>
+            <option value="100">100</option>
+            <option value="500">500</option>
+            <option value="1000">1000</option>
+          </select>
+        </div>
+      </div>
     </div>
 
     <!-- SHOPS PAGE -->
@@ -212,7 +250,7 @@
 
     <!-- ACCOUNTS PAGE -->
     <div id="accountsPage" class="hidden">
-      <p style="color:#888; margin-top:20px;">Sub-accounts feature coming soon!</p>
+      <p style="color:#888;margin-top:20px;">Sub-accounts feature coming soon!</p>
     </div>
   </div>
 </div>
@@ -242,12 +280,14 @@
 </div>
 
 <script>
-  const API = '';
   let token = localStorage.getItem('token');
   let currentPage = 1;
   let currentStatus = '';
   let currentShopId = '';
+  let currentShopName = '';
+  let perPage = 20;
   let isLogin = true;
+  let allShops = [];
 
   if (token) showDashboard();
 
@@ -301,13 +341,13 @@
   async function loadShops() {
     try {
       const res = await fetch('/api/shops', { headers: { Authorization: `Bearer ${token}` } });
-      const shops = await res.json();
+      allShops = await res.json();
       const select = document.getElementById('shopSelect');
       const grid = document.getElementById('shopsGrid');
       select.innerHTML = '<option value="">-- Select Shop --</option>';
       grid.innerHTML = '<div class="add-shop-card" onclick="openAddShop()">+ Add Pancake POS Shop</div>';
-      shops.forEach(shop => {
-        select.innerHTML += `<option value="${shop.id}">${shop.name}</option>`;
+      allShops.forEach(shop => {
+        select.innerHTML += `<option value="${shop.id}" data-name="${shop.name}" data-shopid="${shop.shop_id}">${shop.name}</option>`;
         grid.innerHTML = `<div class="shop-card">
           <h4>${shop.name}</h4>
           <p>Shop ID: ${shop.shop_id}</p>
@@ -318,17 +358,24 @@
   }
 
   async function loadOrders() {
-    currentShopId = document.getElementById('shopSelect').value;
+    const select = document.getElementById('shopSelect');
+    currentShopId = select.value;
+    const selectedOption = select.options[select.selectedIndex];
+    currentShopName = selectedOption ? selectedOption.text : '';
+    const pancakeShopId = selectedOption ? selectedOption.getAttribute('data-shopid') : '';
+
     if (!currentShopId) return;
-    document.getElementById('ordersBody').innerHTML = '<tr class="loading-row"><td colspan="9">Loading orders...</td></tr>';
+
+    document.getElementById('ordersBody').innerHTML = '<tr class="loading-row"><td colspan="10">Loading orders...</td></tr>';
+
     try {
-      let url = `/api/orders/${currentShopId}?page=${currentPage}`;
+      let url = `/api/orders/${currentShopId}?page=${currentPage}&page_size=${perPage}`;
       if (currentStatus !== '') url += `&status=${currentStatus}`;
       const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
       const data = await res.json();
-      renderOrders(data);
+      renderOrders(data, pancakeShopId, currentShopName);
     } catch (err) {
-      document.getElementById('ordersBody').innerHTML = '<tr class="loading-row"><td colspan="9">Error loading orders</td></tr>';
+      document.getElementById('ordersBody').innerHTML = '<tr class="loading-row"><td colspan="10">Error loading orders</td></tr>';
     }
   }
 
@@ -337,22 +384,29 @@
     4: 'Returning', 5: 'Returned', 6: 'Cancelled', 7: 'Returned', 9: 'Sent to Partner'
   };
 
-  function renderOrders(data) {
+  function renderOrders(data, pancakeShopId, shopName) {
     const tbody = document.getElementById('ordersBody');
+
     if (!data.orders || data.orders.length === 0) {
-      tbody.innerHTML = '<tr class="loading-row"><td colspan="9">No orders found</td></tr>';
+      tbody.innerHTML = '<tr class="loading-row"><td colspan="10">No orders found</td></tr>';
       return;
     }
 
-    // Stats
+    // Stats from aggs
     if (data.aggs) {
-      document.getElementById('statTotal').textContent = data.total_entries || 0;
       const buckets = data.aggs.status?.buckets || [];
+      const total = data.total_entries || 0;
       const delivered = buckets.find(b => b.key === '3')?.doc_count || 0;
-      const returned = buckets.find(b => b.key === '7')?.doc_count || 0;
-      document.getElementById('statDelivered').textContent = delivered;
-      document.getElementById('statReturned').textContent = returned;
-      document.getElementById('statCOD').textContent = '₱' + (data.aggs.cod?.value || 0).toLocaleString();
+      const returned = (buckets.find(b => b.key === '7')?.doc_count || 0) + (buckets.find(b => b.key === '5')?.doc_count || 0);
+      const cancelled = buckets.find(b => b.key === '6')?.doc_count || 0;
+      const codValue = data.aggs.cod?.value || 0;
+
+      document.getElementById('statTotal').textContent = total.toLocaleString();
+      document.getElementById('statDelivered').textContent = delivered.toLocaleString();
+      document.getElementById('statReturned').textContent = returned.toLocaleString();
+      document.getElementById('statCancelled').textContent = cancelled.toLocaleString();
+      document.getElementById('statCOD').textContent = '₱' + codValue.toLocaleString();
+      document.getElementById('orderCount').textContent = `Showing ${data.orders.length} of ${total.toLocaleString()} orders`;
     }
 
     tbody.innerHTML = data.orders.map(order => {
@@ -363,29 +417,24 @@
       else if (items.length === 1) productName = items[0].variation_info?.name || items[0].variation_info?.product_display_id || 'N/A';
       else productName = `<span style="color:#4f46e5;font-weight:500;">Multiple Products (${items.length})</span>`;
 
-      // Qty
       const qty = order.total_quantity || items.reduce((s, i) => s + (i.quantity || 0), 0) || 1;
-
-      // Page/Store
       const pageName = order.account_name || order.page?.name || '--';
-
-      // Source
       const source = order.ads_source || order.order_sources_name || '--';
       const sourceClass = source === 'Facebook' ? 'source-badge source-fb' : 'source-badge';
-
-      // Date
       const date = new Date(order.inserted_at).toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' });
-
-      // Status
       const statusText = statusMap[order.status] || 'Unknown';
 
+      // POS ID format: ShopID-OrderSystemID
+      const posId = `${pancakeShopId}-${order.system_id}`;
+
       return `<tr>
-        <td style="font-weight:600;color:#4f46e5;">#${order.system_id}</td>
+        <td style="font-weight:600;color:#4f46e5;font-size:12px;">${posId}</td>
+        <td style="font-size:12px;color:#555;max-width:120px;overflow:hidden;text-overflow:ellipsis;" title="${shopName}">${shopName}</td>
         <td>${order.bill_full_name || '--'}</td>
-        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;">${productName}</td>
+        <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;">${productName}</td>
         <td style="text-align:center;">${qty}</td>
         <td style="font-weight:600;">₱${(order.total_price || 0).toLocaleString()}</td>
-        <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;font-size:12px;color:#555;">${pageName}</td>
+        <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;font-size:12px;color:#555;" title="${pageName}">${pageName}</td>
         <td><span class="${sourceClass}">${source}</span></td>
         <td style="color:#888;">${date}</td>
         <td class="col-status"><span class="status-badge status-${order.status}">${statusText}</span></td>
@@ -396,11 +445,13 @@
     const pagination = document.getElementById('pagination');
     pagination.innerHTML = '';
     const total = data.total_pages || 1;
-    const pages = Math.min(total, 10);
-    for (let i = 1; i <= pages; i++) {
+    const maxPages = Math.min(total, 10);
+    for (let i = 1; i <= maxPages; i++) {
       pagination.innerHTML += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
     }
-    if (total > 10) pagination.innerHTML += `<span style="padding:6px 10px;color:#888;font-size:13px;">... ${total} pages total</span>`;
+    if (total > 10) {
+      pagination.innerHTML += `<span style="padding:6px 10px;color:#888;font-size:13px;">... ${total} pages</span>`;
+    }
   }
 
   function filterOrders(status, btn) {
@@ -412,6 +463,12 @@
   }
 
   function goToPage(page) { currentPage = page; loadOrders(); }
+
+  function changePerPage() {
+    perPage = parseInt(document.getElementById('perPageSelect').value);
+    currentPage = 1;
+    loadOrders();
+  }
 
   function openAddShop() { document.getElementById('addShopModal').classList.add('show'); }
   function closeAddShop() { document.getElementById('addShopModal').classList.remove('show'); }
